@@ -3,12 +3,11 @@ const rpslsRouter = express.Router();
 const fs = require('fs');
 const common = require('../commonModules/commonModules.js');
 const roomsUrl = './modules/rpsls/roomsRpsls.json';
-let jsonRooms = {};
 let dataRooms = {};
-var ID = 0;
+let ID = 0;
 
 function readFile() {
-    jsonRooms = fs.readFileSync('./modules/rpsls/roomsRpsls.json', 'utf-8'); //read my JSON
+    let jsonRooms = fs.readFileSync('./modules/rpsls/roomsRpsls.json', 'utf-8'); //read my JSON
     dataRooms = JSON.parse(jsonRooms); //convert my JSON to array
 }
 
@@ -23,10 +22,9 @@ function createRoom() {
     const player1ID = common.getHash(); //get the hash of the player1
     const date = Date.parse(Date());
     let id = -1;
-    let room = {};
     if (indexNull == -1) {
         const idRoom = ID++;
-        room = {
+        let room = {
             id: idRoom, //id of the room
             playersIDs: [player1ID, null], //hash of the players
             points: [0, 0], //points of the players
@@ -41,7 +39,7 @@ function createRoom() {
         id = idRoom;
         dataRooms.push(room);
     } else {
-        room = {
+        let room = {
             id: indexNull, //replace the delete room
             playersIDs: [player1ID, null], //hash of the players
             points: [0, 0], //points of the players
