@@ -4,7 +4,7 @@ const fs = require('fs');
 const common = require('../commonModules/commonModules.js');
 const roomsUrl = './modules/rpsls/roomsRpsls.json';
 let dataRooms = {};
-let ID = 0;
+let contId = 0;
 
 function readFile() {
     let jsonRooms = fs.readFileSync('./modules/rpsls/roomsRpsls.json', 'utf-8'); //read my JSON
@@ -19,14 +19,14 @@ function writeFile() {
 function createRoom() {
     readFile();
     const indexNull = dataRooms.indexOf(null); //return -1 if there is no room in null
-    const player1ID = common.getHash(); //get the hash of the player1
+    const player1Id = common.getHash(); //get the hash of the player1
     const date = Date.parse(Date());
     let id = -1;
     if (indexNull === -1) {
-        const idRoom = ID++;
+        const idRoom = contId++;
         let room = {
             id: idRoom, //id of the room
-            playersIDs: [player1ID, null], //hash of the players
+            playersIds: [player1Id, null], //hash of the players
             points: [0, 0], //points of the players
             moves: [-1, -1], //movements of the players
             alreadyPlayed: [false,false], //so that the player does not play more than once
@@ -41,7 +41,7 @@ function createRoom() {
     } else {
         let room = {
             id: indexNull, //replace the delete room
-            playersIDs: [player1ID, null], //hash of the players
+            playersIds: [player1Id, null], //hash of the players
             points: [0, 0], //points of the players
             moves: [-1, -1], //movements of the players
             alreadyPlayed: [false,false], //so that the player does not play more than once
@@ -56,7 +56,7 @@ function createRoom() {
     }
     writeFile();
     readFile(); //read again my JSON to keep it updated
-    return { id: id, hash: player1ID };
+    return { id: id, hash: player1Id };
 }
 
 //Create new room
@@ -78,16 +78,16 @@ rpslsRouter.post('/rooms/join/:id', (req, res) => {
         return;
     }
     //verify if there are two players
-    if (dataRooms[idRoom].playersIDs[1]) {
+    if (dataRooms[idRoom].playersIds[1]) {
         res.status(400).json({ error: true, message: 'No podes unirte. Ya existe un jugador 2.' });
         return;
     }
-    const player2ID = common.getHash();
-    dataRooms[idRoom].playersIDs[1] = player2ID;
+    const player2Id = common.getHash();
+    dataRooms[idRoom].playersIds[1] = player2Id;
     writeFile(); //write my file with the id of the player2
     readFile(); //i read it to keep it updated
     res.status(200).json({
-        hashP2: player2ID,
+        hashP2: player2Id,
         points: dataRooms[idRoom].points,
         idRoom: idRoom
     })
@@ -101,11 +101,11 @@ function movementValid(move) {
 }
 
 function hashExist(hashPlayer, idRoom) {
-    return (dataRooms[idRoom].playersIDs.includes(hashPlayer)); //if that hash exist in that room
+    return (dataRooms[idRoom].playersIds.includes(hashPlayer)); //if that hash exist in that room
 }
 
 function storeMovement(move, hashPlayer, idRoom) {
-    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
     dataRooms[idRoom].moves[index] = move; //save the movement that he/she made
     dataRooms[idRoom].alreadyPlayed[index] = true;
     writeFile(); //write my file with the movement
@@ -113,7 +113,7 @@ function storeMovement(move, hashPlayer, idRoom) {
 }
 
 function played(hashPlayer, idRoom) { //return true if the player has already played
-    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
     return (dataRooms[idRoom].alreadyPlayed[index]);
 }
 
