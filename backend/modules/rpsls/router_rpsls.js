@@ -3,11 +3,12 @@ const rpslsRouter = express.Router();
 const fs = require('fs');
 const common = require('../commonModules/commonModules.js');
 const roomsUrl = './modules/rpsls/roomsRpsls.json';
+let jsonRooms = {};
 let dataRooms = {};
-let contId = 0;
+var ID = 0;
 
 function readFile() {
-    let jsonRooms = fs.readFileSync('./modules/rpsls/roomsRpsls.json', 'utf-8'); //read my JSON
+    jsonRooms = fs.readFileSync('./modules/rpsls/roomsRpsls.json', 'utf-8'); //read my JSON
     dataRooms = JSON.parse(jsonRooms); //convert my JSON to array
 }
 
@@ -19,14 +20,15 @@ function writeFile() {
 function createRoom() {
     readFile();
     const indexNull = dataRooms.indexOf(null); //return -1 if there is no room in null
-    const player1Id = common.getHash(); //get the hash of the player1
+    const player1ID = common.getHash(); //get the hash of the player1
     const date = Date.parse(Date());
     let id = -1;
-    if (indexNull === -1) {
-        const idRoom = contId++;
-        let room = {
+    let room = {};
+    if (indexNull == -1) {
+        const idRoom = ID++;
+        room = {
             id: idRoom, //id of the room
-            playersIds: [player1Id, null], //hash of the players
+            playersIDs: [player1ID, null], //hash of the players
             points: [0, 0], //points of the players
             moves: [-1, -1], //movements of the players
             alreadyPlayed: [false,false], //so that the player does not play more than once
@@ -39,9 +41,9 @@ function createRoom() {
         id = idRoom;
         dataRooms.push(room);
     } else {
-        let room = {
+        room = {
             id: indexNull, //replace the delete room
-            playersIds: [player1Id, null], //hash of the players
+            playersIDs: [player1ID, null], //hash of the players
             points: [0, 0], //points of the players
             moves: [-1, -1], //movements of the players
             alreadyPlayed: [false,false], //so that the player does not play more than once
@@ -56,7 +58,7 @@ function createRoom() {
     }
     writeFile();
     readFile(); //read again my JSON to keep it updated
-    return { id: id, hash: player1Id };
+    return { id: id, hash: player1ID };
 }
 
 //Create new room
@@ -78,16 +80,16 @@ rpslsRouter.post('/rooms/join/:id', (req, res) => {
         return;
     }
     //verify if there are two players
-    if (dataRooms[idRoom].playersIds[1]) {
+    if (dataRooms[idRoom].playersIDs[1]) {
         res.status(400).json({ error: true, message: 'No podes unirte. Ya existe un jugador 2.' });
         return;
     }
-    const player2Id = common.getHash();
-    dataRooms[idRoom].playersIds[1] = player2Id;
+    const player2ID = common.getHash();
+    dataRooms[idRoom].playersIDs[1] = player2ID;
     writeFile(); //write my file with the id of the player2
     readFile(); //i read it to keep it updated
     res.status(200).json({
-        hashP2: player2Id,
+        hashP2: player2ID,
         points: dataRooms[idRoom].points,
         idRoom: idRoom
     })
@@ -101,11 +103,11 @@ function movementValid(move) {
 }
 
 function hashExist(hashPlayer, idRoom) {
-    return (dataRooms[idRoom].playersIds.includes(hashPlayer)); //if that hash exist in that room
+    return (dataRooms[idRoom].playersIDs.includes(hashPlayer)); //if that hash exist in that room
 }
 
 function storeMovement(move, hashPlayer, idRoom) {
-    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
     dataRooms[idRoom].moves[index] = move; //save the movement that he/she made
     dataRooms[idRoom].alreadyPlayed[index] = true;
     writeFile(); //write my file with the movement
@@ -113,7 +115,7 @@ function storeMovement(move, hashPlayer, idRoom) {
 }
 
 function played(hashPlayer, idRoom) { //return true if the player has already played
-    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
     return (dataRooms[idRoom].alreadyPlayed[index]);
 }
 
@@ -166,10 +168,10 @@ function play(idRoom) {
             break;
     }
     winner=-2; //restart the winner
-    if (dataRooms[idRoom].points[0] === 5){ //if the player1 get 5 points he/she wins the match
+    if (dataRooms[idRoom].points[0] == 5){ //if the player1 get 5 points he/she wins the match
         dataRooms[idRoom].matchWinner=0;
         dataRooms[idRoom].matchFinished=true;
-    }else if(dataRooms[idRoom].points[1] === 5){ //if the player2 get 5 points he/she wins the match
+    }else if(dataRooms[idRoom].points[1] == 5){ //if the player2 get 5 points he/she wins the match
         dataRooms[idRoom].matchWinner=1;
         dataRooms[idRoom].matchFinished=true;
     }
