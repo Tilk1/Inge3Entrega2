@@ -129,29 +129,53 @@ function play(idRoom) {
     let winner = -2;
     switch(moveP1){
         case 1: //rock --> wins against Lizard,Scissor - lost against Paper,Spock
-            if((moveP2===3)||(moveP2===4)) winner=0; //rock wins
-            else if((moveP2===2)||(moveP2===5)) winner=1; //rock lose
-            else if(moveP2===1) winner=-1;//tie!
+            if((moveP2===3)||(moveP2===4)) 
+                winner=0; //rock wins
+            else 
+                if((moveP2===2)||(moveP2===5)) 
+                    winner=1; //rock lose
+            else 
+                if(moveP2===1) 
+                    winner=-1;//tie!
         break;
         case 2: //paper --> wins against Rock,Spock - lost against Scissors,Lizard
-            if((moveP2===1)||(moveP2===5)) winner=0; //paper wins
-            else if((moveP2===3)||(moveP2===4)) winner=1; //paper lose
-            else if(moveP2===2) winner=-1;//tie!
+            if((moveP2===1)||(moveP2===5)) 
+                winner=0; //paper wins
+            else 
+                if((moveP2===3)||(moveP2===4)) 
+                    winner=1; //paper lose
+            else 
+                if(moveP2===2) 
+                    winner=-1;//tie!
         break;
         case 3: //scissors --> wins against Paper,Lizard - lost against Rock,Spock
-            if((moveP2===2)||(moveP2===4)) winner=0; //scissor wins
-            else if((moveP2===1)||(moveP2===5)) winner=1; //scissor lose
-            else if(moveP2===3) winner=-1;//tie!
+            if((moveP2===2)||(moveP2===4)) 
+                winner=0; //scissor wins
+            else 
+                if((moveP2===1)||(moveP2===5)) 
+                    winner=1; //scissor lose
+            else 
+                if(moveP2===3) 
+                    winner=-1;//tie!
         break;
         case 4: //lizard --> wins against Paper,Spock - lost against Rock,Scissor
-            if((moveP2===2)||(moveP2===5)) winner=0; //lizard wins
-            else if((moveP2===1)||(moveP2===3)) winner=1; //lizard lose
-            else if(moveP2===4) winner=-1;//tie!
+            if((moveP2===2)||(moveP2===5)) 
+                winner=0; //lizard wins
+            else 
+                if((moveP2===1)||(moveP2===3))
+                    winner=1; //lizard lose
+            else 
+                if(moveP2===4) winner=-1;//tie!
         break;
         case 5: //spock --> wins against Scissors,Rock - lost against Lizard,Paper
-            if((moveP2===3)||(moveP2===1)) winner=0; //spock wins
-            else if((moveP2===4)||(moveP2===2)) winner=1; //spock lose
-            else if(moveP2===5) winner=-1; //tie!
+            if((moveP2===3)||(moveP2===1)) 
+                winner=0; //spock wins
+            else 
+                if((moveP2===4)||(moveP2===2)) 
+                    winner=1; //spock lose
+            else 
+                if(moveP2===5) 
+                    winner=-1; //tie!
         break;
     }
     switch (winner) {
@@ -171,10 +195,11 @@ function play(idRoom) {
     if (dataRooms[idRoom].points[0] === 5){ //if the player1 get 5 points he/she wins the match
         dataRooms[idRoom].matchWinner=0;
         dataRooms[idRoom].matchFinished=true;
-    }else if(dataRooms[idRoom].points[1] === 5){ //if the player2 get 5 points he/she wins the match
-        dataRooms[idRoom].matchWinner=1;
-        dataRooms[idRoom].matchFinished=true;
-    }
+    }else 
+        if(dataRooms[idRoom].points[1] === 5){ //if the player2 get 5 points he/she wins the match
+            dataRooms[idRoom].matchWinner=1;
+            dataRooms[idRoom].matchFinished=true;
+        }
     dataRooms[idRoom].moves[0] = -1; //restart the moves
     dataRooms[idRoom].moves[1] = -1;
     dataRooms[idRoom].alreadyPlayed[0] = false; //reset if the player has already played
