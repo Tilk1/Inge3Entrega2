@@ -5,7 +5,7 @@ const common = require('../commonModules/commonModules.js');
 const roomsUrl = './modules/rpsls/roomsRpsls.json';
 let jsonRooms = {};
 let dataRooms = {};
-let id = 0;
+let idGlobal = 0;
 
 function readFile() {
     jsonRooms = fs.readFileSync('./modules/rpsls/roomsRpsls.json', 'utf-8'); //read my JSON
@@ -25,7 +25,7 @@ function createRoom() {
     let id = -1;
     let room = {};
     if (indexNull === -1) {
-        const idRoom = id++;
+        const idRoom = idGlobal++;
         room = {
             id: idRoom, //id of the room
             playersIds: [player1Id, null], //hash of the players
