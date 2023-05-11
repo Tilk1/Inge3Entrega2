@@ -69,7 +69,7 @@ rpslsRouter.post('/rooms', (req, res) => {
         idRoom: id,
         hashP1: hash
     });
-})
+});
 
 //Join the player2 to the game
 rpslsRouter.post('/rooms/join/:id', (req, res) => {
@@ -92,7 +92,7 @@ rpslsRouter.post('/rooms/join/:id', (req, res) => {
         hashP2: player2Id,
         points: dataRooms[idRoom].points,
         idRoom: idRoom
-    })
+    });
 });
 
 function movementValid(move) {
@@ -232,8 +232,8 @@ rpslsRouter.put('/rooms/:id', (req, res) => {
         matchWinner: dataRooms[idRoom].matchWinner,
         matchFinished: dataRooms[idRoom].matchFinished,
         matchCanceled: dataRooms[idRoom].matchCanceled,
-    })
-})
+    });
+});
 
 //Updated information
 rpslsRouter.get('/rooms/:id', (req, res) => {
@@ -251,7 +251,7 @@ rpslsRouter.get('/rooms/:id', (req, res) => {
         matchFinished: dataRooms[idRoom].matchFinished,
         matchCanceled: dataRooms[idRoom].matchCanceled,
     });
-})
+});
 
 //active a flag if some player cancel the match
 rpslsRouter.delete('/rooms/:id', (req, res) => {
@@ -279,6 +279,6 @@ rpslsRouter.delete('/rooms/:id', (req, res) => {
         matchCanceled: true,
         message: 'El otro jugador se ha rendido'
     });
-})
+});
 
 module.exports = rpslsRouter;
