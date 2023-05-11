@@ -24,7 +24,7 @@ function createRoom() {
     const date = Date.parse(Date());
     let id = -1;
     let room = {};
-    if (indexNull == -1) {
+    if (indexNull === -1) {
         const idRoom = ID++;
         room = {
             id: idRoom, //id of the room
@@ -120,7 +120,7 @@ function played(hashPlayer, idRoom) { //return true if the player has already pl
 }
 
 function matchDone(idRoom) { //return true if bouth player choose their move
-    return ((dataRooms[idRoom].moves[0] != -1) & (dataRooms[idRoom].moves[1] != -1));
+    return ((dataRooms[idRoom].moves[0] !== -1) & (dataRooms[idRoom].moves[1] !== -1));
 }
 
 function play(idRoom) {
@@ -168,10 +168,10 @@ function play(idRoom) {
             break;
     }
     winner=-2; //restart the winner
-    if (dataRooms[idRoom].points[0] == 5){ //if the player1 get 5 points he/she wins the match
+    if (dataRooms[idRoom].points[0] === 5){ //if the player1 get 5 points he/she wins the match
         dataRooms[idRoom].matchWinner=0;
         dataRooms[idRoom].matchFinished=true;
-    }else if(dataRooms[idRoom].points[1] == 5){ //if the player2 get 5 points he/she wins the match
+    }else if(dataRooms[idRoom].points[1] === 5){ //if the player2 get 5 points he/she wins the match
         dataRooms[idRoom].matchWinner=1;
         dataRooms[idRoom].matchFinished=true;
     }
