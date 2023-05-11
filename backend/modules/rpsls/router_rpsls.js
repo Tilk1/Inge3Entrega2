@@ -5,7 +5,7 @@ const common = require('../commonModules/commonModules.js');
 const roomsUrl = './modules/rpsls/roomsRpsls.json';
 let jsonRooms = {};
 let dataRooms = {};
-var ID = 0;
+let ID = 0;
 
 function readFile() {
     jsonRooms = fs.readFileSync('./modules/rpsls/roomsRpsls.json', 'utf-8'); //read my JSON
