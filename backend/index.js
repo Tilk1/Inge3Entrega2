@@ -4,7 +4,7 @@ const PORT = 5000;
 const fs = require("fs");
 const hangmanRouter = require("./modules/hangman/routerHangman");
 const rpslsRouter = require("./modules/rpsls/routerRpsls");
-const tatetiRouter = require("./modules/tateti/routerTateti");
+const tatetiRouter = require("./modules/tateti/router_tateti");
 const cors = require("cors");
 
 app.use(cors());
