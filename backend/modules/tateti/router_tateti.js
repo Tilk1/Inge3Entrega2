@@ -29,7 +29,7 @@ function createRoom() {
     let id = -1;
     let room = {};
 
-    if (indexNull == -1) {
+    if (indexNull === -1) {
         // if the room is empty ... 
         const idRoom = id++;
         room = {
@@ -150,35 +150,35 @@ function storeMovement(position, hashPlayer, idRoom) {
 function checkForWinner(symbol, idRoom) {
     tatetiBoard = dataRooms[idRoom].tatetiBoard;
     // first row 
-    if (tatetiBoard[0] == symbol && tatetiBoard[1] == symbol && tatetiBoard[2] == symbol) {
+    if (tatetiBoard[0] === symbol && tatetiBoard[1] === symbol && tatetiBoard[2] === symbol) {
         return true;
     }
     // second row 
-    if (tatetiBoard[3] == symbol && tatetiBoard[4] == symbol && tatetiBoard[5] == symbol) {
+    if (tatetiBoard[3] === symbol && tatetiBoard[4] === symbol && tatetiBoard[5] === symbol) {
         return true;
     }
     // third row 
-    if (tatetiBoard[6] == symbol && tatetiBoard[7] == symbol && tatetiBoard[8] == symbol) {
+    if (tatetiBoard[6] === symbol && tatetiBoard[7] === symbol && tatetiBoard[8] === symbol) {
         return true;
     }
     // firt column
-    if (tatetiBoard[0] == symbol && tatetiBoard[3] == symbol && tatetiBoard[6] == symbol) {
+    if (tatetiBoard[0] === symbol && tatetiBoard[3] === symbol && tatetiBoard[6] === symbol) {
         return true;
     }
     // second column
-    if (tatetiBoard[1] == symbol && tatetiBoard[4] == symbol && tatetiBoard[7] == symbol) {
+    if (tatetiBoard[1] === symbol && tatetiBoard[4] === symbol && tatetiBoard[7] === symbol) {
         return true;
     }
     // third column 
-    if (tatetiBoard[2] == symbol && tatetiBoard[5] == symbol && tatetiBoard[8] == symbol) {
+    if (tatetiBoard[2] === symbol && tatetiBoard[5] === symbol && tatetiBoard[8] === symbol) {
         return true;
     }
     // one of the two diagonals 
-    if (tatetiBoard[0] == symbol && tatetiBoard[4] == symbol && tatetiBoard[8] == symbol) {
+    if (tatetiBoard[0] === symbol && tatetiBoard[4] === symbol && tatetiBoard[8] === symbol) {
         return true;
     }
     // the other diagonal 
-    if (tatetiBoard[2] == symbol && tatetiBoard[4] == symbol && tatetiBoard[6] == symbol) {
+    if (tatetiBoard[2] === symbol && tatetiBoard[4] === symbol && tatetiBoard[6] === symbol) {
         return true;
     }
     // if there aren't symbols in the winning positions, return false
