@@ -7,7 +7,7 @@ const roomsUrl = './modules/tateti/roomsTateti.json';
 // variables and constants for rooms
 let jsonRooms = {};
 let dataRooms = {};
-var ID = 0;
+var id = 0;
 
 // reed and write from JSON 
 function readFile() {
@@ -31,10 +31,10 @@ function createRoom() {
 
     if (indexNull == -1) {
         // if the room is empty ... 
-        const idRoom = ID++;
+        const idRoom = id++;
         room = {
             id: idRoom,
-            playersIDs: [playerOneId, null], // the room is create with the first player in it
+            playersIds: [playerOneId, null], // the room is create with the first player in it
             alredyPlayed: [false, true], // false = the player is allowed to play. 
             matchFinished: false, //if the match ends
             playerWin: -1, // "-1" if the game not finished, "0" if player 1 win , "1" if player 2 win and "2" if is a tie
@@ -47,7 +47,7 @@ function createRoom() {
     } else {
         room = {
             id: indexNull, // replace the delate room
-            playersIDs: [playerOneId, null], // the room is create with the first player in it
+            playersIds: [playerOneId, null], // the room is create with the first player in it
             alredyPlayed: [false, true], // false = the player is allowed to play. 
             matchFinished: false, //if the match ends
             playerWin: -1, // "-1" if the game not finished, "0" if player 1 win , "1" if player 2 win and "2" if is a tie
@@ -82,12 +82,12 @@ tatetiRouter.post('/rooms/join/:id', (req, res) => {
         return;
     }
     // if player 2 is alredy in game 
-    if (dataRooms[idRoom].playersIDs[1]) {
+    if (dataRooms[idRoom].playersIds[1]) {
         res.status(400).json({ error: true, message: 'El jugador dos ya existe' });
         return;
     }
     const playerTwoID = common.getHash();
-    dataRooms[idRoom].playersIDs[1] = playerTwoID;
+    dataRooms[idRoom].playersIds[1] = playerTwoID;
     writeFile();
     readFile();
 
@@ -101,12 +101,12 @@ tatetiRouter.post('/rooms/join/:id', (req, res) => {
 
 // if the player with that hash is in the room
 function hashExist(hashPlayer, idRoom) {
-    return (dataRooms[idRoom].playersIDs.includes(hashPlayer));
+    return (dataRooms[idRoom].playersIds.includes(hashPlayer));
 }
 
 // return true if the player alredy play
 function played(hashPlayer, idRoom) {
-    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
     return (dataRooms[idRoom].alredyPlayed[index]);
 }
 
@@ -123,7 +123,7 @@ function validPosition(position, idRoom) {
 
 // store the movement and change some fields
 function storeMovement(position, hashPlayer, idRoom) {
-    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
     // index gonna be the index of the hashPlayers
     if (index === 0) {
         // index 0 = player 1 , save the movement 
