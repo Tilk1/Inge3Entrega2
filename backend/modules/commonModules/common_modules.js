@@ -33,7 +33,7 @@ function deleteUselessRooms(url,time){
     let jsonRooms = fs.readFileSync(url,'utf-8');
     let dataRooms = JSON.parse(jsonRooms); 
     let newDataRooms = dataRooms.map(room => {
-        dateNow=Date.parse(Date());
+        let dateNow=Date.parse(Date());
         let result=dateNow-room.time;
         if ((room.matchCanceled)||(room.matchFinished)){ //check if the room was canceled or if it ended
             if ((result > time)){ //check if more than four hours have passed since the room was created
