@@ -10,7 +10,7 @@ const common = require("../commonModules/commonModules.js");
 let jsonRooms = {};
 let dataRooms = {};
 // assing ID to the room
-var ID = 0;
+let ID = 0;
 function readFile() {
   jsonRooms = fs.readFileSync("./modules/hangman/roomsHangman.json", "utf-8"); //read JSON
   dataRooms = JSON.parse(jsonRooms); //convert my JSON to array
@@ -33,7 +33,7 @@ function createRoom() {
   const arrLetters = Array();
   let room = {};
   let id = -1;
-  if (indexNull == -1) {
+  if (indexNull === -1) {
     const idRoom = ID++;
     room = {
       id: idRoom, //id of the room
