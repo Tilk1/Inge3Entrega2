@@ -7,7 +7,7 @@ const roomsUrl = './modules/tateti/roomsTateti.json';
 // variables and constants for rooms
 let jsonRooms = {};
 let dataRooms = {};
-var ID = 0;
+let id = 0;
 
 // reed and write from JSON 
 function readFile() {
@@ -17,44 +17,44 @@ function readFile() {
 
 function writeFile() {
     let data = JSON.stringify(dataRooms, null, 1); //convert my array to a JSON
-    fs.writeFileSync('./modules/tateti/roomsTateti.json', data) // write
+    fs.writeFileSync('./modules/tateti/roomsTateti.json', data); // write
 }
 
 // CREATE ROOMS 
 // room preparation and IDS assignment
 function createRoom() {
     readFile();
-    const indexNull = dataRooms.indexOf(null) // return -1 if the room is empty
+    const indexNull = dataRooms.indexOf(null); // return -1 if the room is empty
     const playerOneId = common.getHash(); // get the hash for the first player
     let id = -1;
     let room = {};
 
-    if (indexNull == -1) {
+    if (indexNull === -1) {
         // if the room is empty ... 
-        const idRoom = ID++;
+        const idRoom = id++;
         room = {
             id: idRoom,
-            playersIDs: [playerOneId, null], // the room is create with the first player in it
+            playersIds: [playerOneId, null], // the room is create with the first player in it
             alredyPlayed: [false, true], // false = the player is allowed to play. 
             matchFinished: false, //if the match ends
             playerWin: -1, // "-1" if the game not finished, "0" if player 1 win , "1" if player 2 win and "2" if is a tie
             matchClosed: false, //if the match is canceled
             tatetiBoard: [null, null, null, null, null, null, null, null, null],
             totalMoves: 0
-        }
+        };
         id = idRoom;
         dataRooms.push(room);
     } else {
         room = {
             id: indexNull, // replace the delate room
-            playersIDs: [playerOneId, null], // the room is create with the first player in it
+            playersIds: [playerOneId, null], // the room is create with the first player in it
             alredyPlayed: [false, true], // false = the player is allowed to play. 
             matchFinished: false, //if the match ends
             playerWin: -1, // "-1" if the game not finished, "0" if player 1 win , "1" if player 2 win and "2" if is a tie
             matchClosed: false, //if the match is canceled
             tatetiBoard: [null, null, null, null, null, null, null, null, null],
             totalMoves: 0
-        }
+        };
         id = indexNull;
         dataRooms[indexNull] = room;
     }
@@ -82,18 +82,18 @@ tatetiRouter.post('/rooms/join/:id', (req, res) => {
         return;
     }
     // if player 2 is alredy in game 
-    if (dataRooms[idRoom].playersIDs[1]) {
+    if (dataRooms[idRoom].playersIds[1]) {
         res.status(400).json({ error: true, message: 'El jugador dos ya existe' });
         return;
     }
     const playerTwoID = common.getHash();
-    dataRooms[idRoom].playersIDs[1] = playerTwoID;
+    dataRooms[idRoom].playersIds[1] = playerTwoID;
     writeFile();
     readFile();
 
     res.status(200).json({
         hashP2: playerTwoID
-    })
+    });
 });
 
 // MODIFY THE ROOMS
@@ -101,12 +101,12 @@ tatetiRouter.post('/rooms/join/:id', (req, res) => {
 
 // if the player with that hash is in the room
 function hashExist(hashPlayer, idRoom) {
-    return (dataRooms[idRoom].playersIDs.includes(hashPlayer));
+    return (dataRooms[idRoom].playersIds.includes(hashPlayer));
 }
 
 // return true if the player alredy play
 function played(hashPlayer, idRoom) {
-    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
     return (dataRooms[idRoom].alredyPlayed[index]);
 }
 
@@ -123,7 +123,7 @@ function validPosition(position, idRoom) {
 
 // store the movement and change some fields
 function storeMovement(position, hashPlayer, idRoom) {
-    let index = dataRooms[idRoom].playersIDs.indexOf(hashPlayer);
+    let index = dataRooms[idRoom].playersIds.indexOf(hashPlayer);
     // index gonna be the index of the hashPlayers
     if (index === 0) {
         // index 0 = player 1 , save the movement 
@@ -150,36 +150,36 @@ function storeMovement(position, hashPlayer, idRoom) {
 function checkForWinner(symbol, idRoom) {
     tatetiBoard = dataRooms[idRoom].tatetiBoard;
     // first row 
-    if (tatetiBoard[0] == symbol && tatetiBoard[1] == symbol && tatetiBoard[2] == symbol) {
-        return true
+    if (tatetiBoard[0] === symbol && tatetiBoard[1] === symbol && tatetiBoard[2] === symbol) {
+        return true;
     }
     // second row 
-    if (tatetiBoard[3] == symbol && tatetiBoard[4] == symbol && tatetiBoard[5] == symbol) {
-        return true
+    if (tatetiBoard[3] === symbol && tatetiBoard[4] === symbol && tatetiBoard[5] === symbol) {
+        return true;
     }
     // third row 
-    if (tatetiBoard[6] == symbol && tatetiBoard[7] == symbol && tatetiBoard[8] == symbol) {
-        return true
+    if (tatetiBoard[6] === symbol && tatetiBoard[7] === symbol && tatetiBoard[8] === symbol) {
+        return true;
     }
     // firt column
-    if (tatetiBoard[0] == symbol && tatetiBoard[3] == symbol && tatetiBoard[6] == symbol) {
-        return true
+    if (tatetiBoard[0] === symbol && tatetiBoard[3] === symbol && tatetiBoard[6] === symbol) {
+        return true;
     }
     // second column
-    if (tatetiBoard[1] == symbol && tatetiBoard[4] == symbol && tatetiBoard[7] == symbol) {
-        return true
+    if (tatetiBoard[1] === symbol && tatetiBoard[4] === symbol && tatetiBoard[7] === symbol) {
+        return true;
     }
     // third column 
-    if (tatetiBoard[2] == symbol && tatetiBoard[5] == symbol && tatetiBoard[8] == symbol) {
-        return true
+    if (tatetiBoard[2] === symbol && tatetiBoard[5] === symbol && tatetiBoard[8] === symbol) {
+        return true;
     }
     // one of the two diagonals 
-    if (tatetiBoard[0] == symbol && tatetiBoard[4] == symbol && tatetiBoard[8] == symbol) {
-        return true
+    if (tatetiBoard[0] === symbol && tatetiBoard[4] === symbol && tatetiBoard[8] === symbol) {
+        return true;
     }
     // the other diagonal 
-    if (tatetiBoard[2] == symbol && tatetiBoard[4] == symbol && tatetiBoard[6] == symbol) {
-        return true
+    if (tatetiBoard[2] === symbol && tatetiBoard[4] === symbol && tatetiBoard[6] === symbol) {
+        return true;
     }
     // if there aren't symbols in the winning positions, return false
     return false;
@@ -188,7 +188,7 @@ function checkForWinner(symbol, idRoom) {
 
 // return true if the board is full
 function checkForTie(idRoom) {
-    return (dataRooms[idRoom].totalMoves == 9)
+    return (dataRooms[idRoom].totalMoves == 9);
 }
 
 // modify the room
@@ -255,8 +255,8 @@ tatetiRouter.put('/rooms/:id', (req, res) => {
         matchClosed: dataRooms[idRoom].matchClosed,
         tatetiBoard: dataRooms[idRoom].tatetiBoard,
         totalMoves: dataRooms[idRoom].totalMoves,
-    })
-})
+    });
+});
 
 //Updated information
 tatetiRouter.get('/rooms/:id', (req, res) => {
@@ -278,7 +278,7 @@ tatetiRouter.get('/rooms/:id', (req, res) => {
         playerWin: dataRooms[idRoom].playerWin,
         totalMoves: dataRooms[idRoom].totalMoves,
     });
-})
+});
 
 // DELETE ROOMS 
 //active a flag if some player cancel the match
@@ -306,6 +306,6 @@ tatetiRouter.delete('/rooms/:id', (req, res) => {
     res.status(200).json({
         matchClosed: true
     });
-})
+});
 
 module.exports = tatetiRouter;
