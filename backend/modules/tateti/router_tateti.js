@@ -17,14 +17,14 @@ function readFile() {
 
 function writeFile() {
     let data = JSON.stringify(dataRooms, null, 1); //convert my array to a JSON
-    fs.writeFileSync('./modules/tateti/roomsTateti.json', data) // write
+    fs.writeFileSync('./modules/tateti/roomsTateti.json', data); // write
 }
 
 // CREATE ROOMS 
 // room preparation and IDS assignment
 function createRoom() {
     readFile();
-    const indexNull = dataRooms.indexOf(null) // return -1 if the room is empty
+    const indexNull = dataRooms.indexOf(null); // return -1 if the room is empty
     const playerOneId = common.getHash(); // get the hash for the first player
     let id = -1;
     let room = {};
@@ -41,7 +41,7 @@ function createRoom() {
             matchClosed: false, //if the match is canceled
             tatetiBoard: [null, null, null, null, null, null, null, null, null],
             totalMoves: 0
-        }
+        };
         id = idRoom;
         dataRooms.push(room);
     } else {
@@ -54,7 +54,7 @@ function createRoom() {
             matchClosed: false, //if the match is canceled
             tatetiBoard: [null, null, null, null, null, null, null, null, null],
             totalMoves: 0
-        }
+        };
         id = indexNull;
         dataRooms[indexNull] = room;
     }
@@ -93,7 +93,7 @@ tatetiRouter.post('/rooms/join/:id', (req, res) => {
 
     res.status(200).json({
         hashP2: playerTwoID
-    })
+    });
 });
 
 // MODIFY THE ROOMS
@@ -151,35 +151,35 @@ function checkForWinner(symbol, idRoom) {
     tatetiBoard = dataRooms[idRoom].tatetiBoard;
     // first row 
     if (tatetiBoard[0] == symbol && tatetiBoard[1] == symbol && tatetiBoard[2] == symbol) {
-        return true
+        return true;
     }
     // second row 
     if (tatetiBoard[3] == symbol && tatetiBoard[4] == symbol && tatetiBoard[5] == symbol) {
-        return true
+        return true;
     }
     // third row 
     if (tatetiBoard[6] == symbol && tatetiBoard[7] == symbol && tatetiBoard[8] == symbol) {
-        return true
+        return true;
     }
     // firt column
     if (tatetiBoard[0] == symbol && tatetiBoard[3] == symbol && tatetiBoard[6] == symbol) {
-        return true
+        return true;
     }
     // second column
     if (tatetiBoard[1] == symbol && tatetiBoard[4] == symbol && tatetiBoard[7] == symbol) {
-        return true
+        return true;
     }
     // third column 
     if (tatetiBoard[2] == symbol && tatetiBoard[5] == symbol && tatetiBoard[8] == symbol) {
-        return true
+        return true;
     }
     // one of the two diagonals 
     if (tatetiBoard[0] == symbol && tatetiBoard[4] == symbol && tatetiBoard[8] == symbol) {
-        return true
+        return true;
     }
     // the other diagonal 
     if (tatetiBoard[2] == symbol && tatetiBoard[4] == symbol && tatetiBoard[6] == symbol) {
-        return true
+        return true;
     }
     // if there aren't symbols in the winning positions, return false
     return false;
@@ -188,7 +188,7 @@ function checkForWinner(symbol, idRoom) {
 
 // return true if the board is full
 function checkForTie(idRoom) {
-    return (dataRooms[idRoom].totalMoves == 9)
+    return (dataRooms[idRoom].totalMoves == 9);
 }
 
 // modify the room
@@ -255,8 +255,8 @@ tatetiRouter.put('/rooms/:id', (req, res) => {
         matchClosed: dataRooms[idRoom].matchClosed,
         tatetiBoard: dataRooms[idRoom].tatetiBoard,
         totalMoves: dataRooms[idRoom].totalMoves,
-    })
-})
+    });
+});
 
 //Updated information
 tatetiRouter.get('/rooms/:id', (req, res) => {
@@ -278,7 +278,7 @@ tatetiRouter.get('/rooms/:id', (req, res) => {
         playerWin: dataRooms[idRoom].playerWin,
         totalMoves: dataRooms[idRoom].totalMoves,
     });
-})
+});
 
 // DELETE ROOMS 
 //active a flag if some player cancel the match
@@ -306,6 +306,6 @@ tatetiRouter.delete('/rooms/:id', (req, res) => {
     res.status(200).json({
         matchClosed: true
     });
-})
+});
 
 module.exports = tatetiRouter;
