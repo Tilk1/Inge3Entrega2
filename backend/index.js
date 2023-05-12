@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
-const PORT = 5000;
+const port = 5000;
 const fs = require("fs");
-const hangmanRouter = require("./modules/hangman/routerHangman");
-const rpslsRouter = require("./modules/rpsls/routerRpsls");
-const tatetiRouter = require("./modules/tateti/routerTateti");
+const hangmanRouter = require("./modules/hangman/router_hangman");
+const rpslsRouter = require("./modules/rpsls/router_rpsls");
+const tatetiRouter = require("./modules/tateti/router_tateti");
 const cors = require("cors");
 
 app.use(cors());
@@ -18,4 +18,4 @@ app.get("/", (req, res) => {
   res.send("Aguante vocaloid!");
 });
 
-app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+app.listen(port, () => console.log(`Server listening on port: ${port}`));

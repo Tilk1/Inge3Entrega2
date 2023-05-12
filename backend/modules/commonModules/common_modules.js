@@ -5,7 +5,7 @@ function getHash() {
     let result = '';
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;
-    for ( var i = 0; i < 8; i++ ) {
+    for ( let i = 0; i < 8; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
    }
    return result;
@@ -30,8 +30,8 @@ function roomDeleteByID(dataRooms,roomId) {
 //delete de rooms that are closed and past more that four hours that
 function deleteUselessRooms(url,time){
     //readFile
-    jsonRooms = fs.readFileSync(url,'utf-8');
-    dataRooms = JSON.parse(jsonRooms); 
+    let jsonRooms = fs.readFileSync(url,'utf-8');
+    let dataRooms = JSON.parse(jsonRooms); 
     let newDataRooms = dataRooms.map(room => {
         dateNow=Date.parse(Date());
         let result=dateNow-room.time;
