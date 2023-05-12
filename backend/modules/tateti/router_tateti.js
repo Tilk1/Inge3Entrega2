@@ -7,7 +7,7 @@ const roomsUrl = './modules/tateti/roomsTateti.json';
 // variables and constants for rooms
 let jsonRooms = {};
 let dataRooms = {};
-var id = 0;
+let id = 0;
 
 // reed and write from JSON 
 function readFile() {
